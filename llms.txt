@@ -1,0 +1,27 @@
+# lark-mcp
+
+> MCP server connecting Claude Desktop App to Lark (Feishu) workspaces.
+
+## What it does
+
+Wraps [lark-cli](https://github.com/larksuite/cli) as a read-only MCP server with five tools:
+
+- `lark_wiki_spaces` — list wiki spaces
+- `lark_wiki_nodes` — list pages inside a space
+- `lark_wiki_read` — read a wiki page by URL (returns markdown)
+- `lark_doc_read` — read a document by obj_token
+- `lark_im_search` — search Lark messages by keyword
+
+## How authentication works
+
+Zero credentials in MCP config. lark-cli manages OAuth tokens in its own storage directory. The `claude_desktop_config.json` entry contains only `command` and `args`.
+
+## Requirements
+
+- Node.js v18+
+- lark-cli installed and authenticated (`lark-cli auth login --domain wiki,docs,drive,im`)
+- Claude Desktop App or any MCP-compatible client
+
+## Source
+
+https://github.com/yyu0310/lark-mcp

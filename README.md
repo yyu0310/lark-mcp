@@ -1,0 +1,96 @@
+# lark-mcp
+
+Connects Claude Desktop App to your Lark workspace, enabling Claude to read wiki pages, documents, and messages directly.
+
+> Built on top of [lark-cli](https://github.com/larksuite/cli) by Larksuite.
+
+---
+
+## What is MCP
+
+MCP (Model Context Protocol) is a standard that lets Claude connect to external tools and data sources.
+
+Without MCP, Claude can only work with what you type into the chat. With MCP, Claude can actively fetch external data, such as reading Lark documents or searching Lark messages, and incorporate the results into its responses.
+
+With this MCP server, when you ask Claude "What's in the your-lark-wiki-name?", Claude will call the Lark API automatically and return the content without you needing to copy and paste anything.
+
+---
+
+## Available Tools
+
+| Tool | Description |
+|---|---|
+| `lark_wiki_spaces` | List all wiki spaces (e.g. your-lark-wiki-name) |
+| `lark_wiki_nodes` | List pages inside a wiki space |
+| `lark_wiki_read` | Read a wiki page's content by URL |
+| `lark_doc_read` | Read a document by its obj_token |
+| `lark_im_search` | Search Lark messages |
+
+---
+
+## Installation
+
+### Prerequisites
+- [Node.js](https://nodejs.org/) v18+
+- [Claude Desktop App](https://claude.ai/download)
+
+### 1. Clone this repo
+
+```bash
+git clone https://github.com/yyu0310/lark-mcp.git
+cd lark-mcp
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Install Lark CLI and authenticate
+
+```bash
+npx @larksuite/cli@latest install
+lark-cli auth login --domain wiki,docs,drive,im --no-wait --json
+# Open the verification URL, then run:
+lark-cli auth login --device-code <code>
+```
+
+> Note: Contact your workspace admin to obtain the Lark App ID and App Secret, or create your own app in the Lark Developer Console and request admin approval.
+
+### 4. Configure Claude Desktop App
+
+Open `~/Library/Application Support/Claude/claude_desktop_config.json` and add:
+
+```json
+{
+  "mcpServers": {
+    "lark": {
+      "command": "node",
+      "args": ["/Users/yourname/lark-mcp/server.js"]
+    }
+  }
+}
+```
+
+Replace the path with the actual location of the folder on your machine.
+
+### 5. Restart Claude Desktop App
+
+Go to Settings → Developer and confirm that `lark` shows status **running**.
+
+---
+
+## Example Prompts
+
+- "List all pages in your-lark-wiki-name"
+- "Read the content of Important Materials"
+- "Search Lark messages about [keyword]"
+
+---
+
+## Known Limitations
+
+- Auth token expires after 7 days. Re-run `lark-cli auth login` when it does.
+- MCP is only supported in Claude Desktop App. The claude.ai web app does not support MCP.
+- `im:chat:create_by_user` and `im:feed.flag` scopes may not be granted by your organization. This does not affect read access.
