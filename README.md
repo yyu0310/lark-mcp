@@ -89,6 +89,17 @@ Go to Settings → Developer and confirm that `lark` shows status **running**.
 
 ---
 
+## Auth & Scope
+
+| | |
+|---|---|
+| **Auth** | Managed by `lark-cli`'s OAuth token store. Nothing in the MCP config. |
+| **Scope** | Read-only. All five tools are read operations, no writes. |
+| **Config shareable** | Yes. `claude_desktop_config.json` contains only `command` and `args`, no secrets. |
+| **Trust boundary** | Claude Desktop App → lark-mcp (local process) → lark-cli → Lark API |
+
+---
+
 ## Known Limitations
 
 - Auth token expires after 7 days. Re-run `lark-cli auth login` when it does.
