@@ -6,6 +6,25 @@ Connects Claude Desktop App to your Lark workspace, enabling Claude to read wiki
 
 ---
 
+## lark-mcp vs. lark-openapi-mcp (official)
+
+Larksuite publishes an official MCP server: [@larksuiteoapi/lark-mcp](https://github.com/larksuite/lark-openapi-mcp). Both connect Claude to Lark, but they solve different problems.
+
+| | **lark-mcp** (this repo) | **lark-openapi-mcp** (official) |
+|---|---|---|
+| **Setup** | No Lark App required | Requires App ID + App Secret from Lark Developer Console |
+| **Credentials in MCP config** | None — lark-cli OAuth token store handles auth | Yes — App ID and Secret embedded in config |
+| **Config shareable with teammates** | Safe to commit and share | Exposes credentials if shared |
+| **Scope** | Read-only, 5 tools | Read + write, 700+ tools |
+| **Identity** | Personal user (your own account) | Bot identity or user OAuth |
+| **Best for** | Individuals who already use lark-cli and want zero-config MCP | Teams building automations, bots, or needing full API coverage |
+
+**Choose lark-mcp when:** you use lark-cli day-to-day and want Claude to read your Lark content with no credential management.
+
+**Choose lark-openapi-mcp when:** you need write operations, full API coverage, or are building a team-level integration.
+
+---
+
 ## What is MCP
 
 MCP (Model Context Protocol) is a standard that lets Claude connect to external tools and data sources.
